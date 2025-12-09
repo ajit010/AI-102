@@ -14,3 +14,65 @@ System Message: 💡
 Prompt 
 
 💡 Review the below LinkedIn Post I'm thrilled to announce the launch of our comprehensive 𝘼𝙒𝙎 𝘾𝙚𝙧𝙩𝙞𝙛𝙞𝙚𝙙 𝘼𝙄 𝙋𝙧𝙖𝙘𝙩𝙞𝙩𝙞𝙤𝙣𝙚𝙧 course, designed to prepare you for success in one of technology's most in-demand certification exams. 𝗧𝗿𝗮𝗻𝘀𝗳𝗼𝗿𝗺 𝗬𝗼𝘂𝗿 𝗖𝗮𝗿𝗲𝗲𝗿 𝘄𝗶𝘁𝗵 𝗔𝗜 𝗦𝗸𝗶𝗹𝗹𝘀 This course offers an immersive learning experience that goes beyond exam preparation. You'll gain: 𝟭. 𝗣𝗿𝗮𝗰𝘁𝗶𝗰𝗮𝗹 𝗔𝗜 𝗞𝗻𝗼𝘄𝗹𝗲𝗱𝗴𝗲 : Understand the fundamental concepts of Artificial Intelligence, Machine Learning, and Deep learning that power today's technological innovations 𝟮. 𝗛𝗮𝗻𝗱𝘀-𝗼𝗻 𝗔𝗪𝗦 𝗘𝘅𝗽𝗲𝗿𝗶𝗲𝗻𝗰𝗲 : Work directly with AWS AI services including Amazon SageMaker, Comprehend, Rekognition, and more. 𝟯. 𝗜𝗻𝗱𝘂𝘀𝘁𝗿𝘆-𝗿𝗲𝗹𝗲𝘃𝗮𝗻𝘁 𝗦𝗸𝗶𝗹𝗹𝘀 : Develop capabilities that employers are actively seeking in today's job market 
+
+
+
+Prompt Engineering - Zero-shot Prompting
+
+
+Prompt:
+💡 How we find the LCM of a number
+
+Prompt:
+
+💡 Please provide the overall sentiment for the below review
+"Alan really goes into depth when teaching. I am way more confident
+than I was before"
+34. Prompt Engineering - Few-shot Prompting
+Prompt:
+
+ "Translate the following English sentences to Spanish"
+“Good morning” → “Buen día”
+“I am really pleased with the course” → “Estoy muy contento con el
+curso"
+“I hope you would be able to provide online training as well”
+35. Prompt Engineering - Chain-of-Thought Prompting
+Prompt:
+💡 Seven years ago , Alan's age was three times John's age. Three years
+since, Alan's age is two times John's age. What is Alan's and John's
+age?
+
+Prompt
+
+Seven years ago , Alan's age was three times John's age. Three years
+since, Alan's age is two times John's age. What is Alan's and John's
+age?
+Step 1
+Let’s Alan’s age be ‘x’ years
+Let’s John’s age be ‘y’ years
+Step 2
+Seven years ago, with Alan’s age three times John’s age
+(x-7) = 3(y-7) - (i)
+Expanding equation (i)
+x - 7 = 3y - 21
+x = 3y - 14
+Step 3
+Three years since, Alan's age is two times John's age
+x + 3 = 2(y + 3) - (ii)
+Expanding equation (ii)
+x + 3 = 2y + 6
+x = 2y + 3
+Step 4
+Substituting the value of ‘x’ from (i) in (ii)
+3y - 14 = 2y + 3
+y = 17
+Step 5
+Using the value of y in equation (i)
+x = 3*17 - 14
+= 37
+Final Answer
+Prompts 9
+Alan’s age is 37 and John’s age is 17
+Five years ago , Dave’s age was three times John's age. Two years
+since, Dave's age three more than two times John's age. What is Dave's
+and John's age?

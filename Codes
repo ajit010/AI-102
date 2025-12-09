@@ -1,5 +1,7 @@
 
-#Python program for System Promot 
+###   Python program for System Prompt  ###
+
+
 
 from openai import AzureOpenAI
 
@@ -30,7 +32,10 @@ print(response.choices[0].message.content)
 
 
 
-# Python Program for fine-tuning and RAG model 
+
+
+
+###  Python Program for fine-tuning and RAG model   ###
 
 from openai import AzureOpenAI
 

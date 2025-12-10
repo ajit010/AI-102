@@ -1,10 +1,31 @@
-1. ### GPT 5 -- REST API ###
+1.   (i) ### GPT 5 -- REST API ###    (Use in Powershell)
 
 
 curl -X POST "https://cloud-meh2dmd5-eastus2.cognitiveservices.azure.com/openai/deployments/gpt-5-chat/chat/completions?api-version=2025-01-01-preview" ^
 -H "Content-Type: application/json" ^
 -H "Authorization: Bearer <key>" ^
 --data-raw "{\"messages\":[{\"role\":\"user\",\"content\":\"Provide 3 real-world use cases for Generative AI\"}]}"
+
+
+(ii )-- next program to save as 01.rest in VS Code and execute :
+
+
+curl -X POST "https://ajit-miy52f5s-eastus2.cognitiveservices.azure.com/openai/deployments/gpt-5-chat/chat/completions?api-version=2025-01-01-preview" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <key>" \
+    -d '{
+        "messages": [
+            {
+                "role": "user",
+                "content": "I am going to Paris, what should I see?"
+            }
+        ],
+        "max_tokens": 16384,
+        "temperature": 1,
+        "top_p": 1,
+        "model": "gpt-5-chat"
+    }'
+
 
 
 2. ### GPT 5 -- Chat Completion API ###
@@ -198,7 +219,7 @@ print(response.choices[0].message.content)
 
 
 
-6.   ### Using AI Content Safety Studio to detect harmful images ###
+7.   ### Using AI Content Safety to detect harmful images ###
 
 
 
@@ -222,7 +243,7 @@ print(response)
 
 
 
-7.   ### Using AI Content Safety Studio to detect harmful text ###
+8.   ### Using AI Content Safety to detect harmful text ###
 
 
 from azure.ai.contentsafety import ContentSafetyClient
@@ -244,7 +265,7 @@ print(response)
 
 
 
-8.    ### Computer Vision -- Image Tagging ###
+9.    ### Computer Vision -- Image Tagging ###
 
 
 
@@ -271,7 +292,7 @@ print(json.dumps(response.as_dict(), indent=4))
 
 
 
-9. ### Computer Vision --- Generate Caption ###
+10.  ### Computer Vision --- Generate Caption ###
 
 
 from azure.ai.vision.imageanalysis import ImageAnalysisClient
@@ -297,7 +318,7 @@ print(json.dumps(response.as_dict(), indent=4))
 
 
 
-10.  ### Computer Vision -- Object Detection ###
+11.  ### Computer Vision -- Object Detection ###
 
 
 from azure.ai.vision.imageanalysis import ImageAnalysisClient
@@ -323,7 +344,7 @@ print(json.dumps(response.as_dict(), indent=4))
 
 
 
-11.   ### Computer Vision --- OCR  ###
+12.   ### Computer Vision --- OCR  ###
 
 
 
@@ -352,27 +373,10 @@ for line in response.read.blocks[0].lines:
 
 
 
-12.    ### Python Program for Custom Vision -- Image Classification ###
+13.    ### Python Program for Custom Vision -- Image Classification ###
 
 
 
-from msrest.authentication import ApiKeyCredentials
-from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient
 
-endpoint="https://ajitcustomvision4000.cognitiveservices.azure.com/"
-key=""
-
-credentials = ApiKeyCredentials(in_headers={"Prediction-key": key})
-prediction_client = CustomVisionPredictionClient(endpoint=endpoint,
-                                                 credentials=credentials)
-
-image_data=open("img1.png",mode="rb").read()
-projectid="81d75bfd-e6a7-455b-99a6-ce9561df710f"
-model_name="PetProject"
-
-response=prediction_client.classify_image(projectid,model_name,image_data)
-
-for prediction in response.predictions:
-    print(prediction)
 
 

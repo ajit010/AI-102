@@ -1,5 +1,45 @@
+1. ### GPT 5 -- REST API ###
 
-###   Python program for System Prompt  ###
+
+curl -X POST "https://cloud-meh2dmd5-eastus2.cognitiveservices.azure.com/openai/deployments/gpt-5-chat/chat/completions?api-version=2025-01-01-preview" ^
+-H "Content-Type: application/json" ^
+-H "Authorization: Bearer <key>" ^
+--data-raw "{\"messages\":[{\"role\":\"user\",\"content\":\"Provide 3 real-world use cases for Generative AI\"}]}"
+
+
+2. ### GPT 5 -- Chat Completion API ###
+
+
+from openai import AzureOpenAI
+
+client = AzureOpenAI(
+    api_version="2024-12-01-preview",
+    azure_endpoint="https://cloud-metks4fx-eastus2.cognitiveservices.azure.com/",
+    api_key="",
+)
+
+response = client.chat.completions.create(
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "Please give me an introduction onto Large Language Models",
+        }
+    ],
+    max_tokens=16384,
+    temperature=1.0,
+    top_p=1.0,
+    model="gpt-5-chat"
+)
+
+print(response.choices[0].message.content)
+
+
+
+3. ###   Python program for System Prompt  ###
 
 
 
@@ -33,9 +73,87 @@ print(response.choices[0].message.content)
 
 
 
+4.  ### Multi-Modal Support for Models ###
 
 
-###  Python Program for fine-tuning and RAG model   ###
+from openai import AzureOpenAI
+import base64
+
+client = AzureOpenAI(
+    api_version="2024-12-01-preview",
+    azure_endpoint="https://cloud-metks4fx-eastus2.cognitiveservices.azure.com/",
+    api_key="",
+)
+
+with open("img1.png","rb") as image_file:
+    image_details=base64.b64encode(image_file.read()).decode("utf-8")
+
+response = client.chat.completions.create(
+    messages=[
+        {
+            "role": "system",
+            "content": "You are an assistant who helps to describe images.",
+        },
+        {
+            "role": "user",
+            "content": 
+            [
+                {
+            "type":"text",
+            "text":"Give me a description of the what the image is trying to explain"
+                },
+                {
+                    "type":"image_url",
+                     "image_url" :{
+                        "url":f"data:image/png;base64,{image_details}"
+                    }
+                }
+            ]
+        }
+    ],
+    max_tokens=16384,
+    temperature=0.7,
+    top_p=1.0,
+    model="gpt-5-chat"
+)
+
+print(response.choices[0].message.content)
+
+
+
+
+5.  ### Using a Modell to generate an Image ###
+
+
+from openai import AzureOpenAI
+import requests
+
+client = AzureOpenAI(
+    api_version="2024-02-01",
+    azure_endpoint="https://foundry3000.cognitiveservices.azure.com/",
+    api_key="",
+)
+
+response = client.images.generate(
+    model="dall-e-3",
+    prompt="A futuristic cat dwelling in the sunset, highly detailed, digital art",
+    n=1,
+    size="1024x1024",
+    quality="standard"
+)
+
+image_url=response.data[0].url
+
+image_data =requests.get(image_url).content
+with open("img2.png","wb") as handler:
+    handler.write(image_data)
+
+print("Finished generating the image")
+
+
+
+
+6. ###  Python Program for fine-tuning and RAG model   ###
 
 from openai import AzureOpenAI
 

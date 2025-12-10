@@ -373,7 +373,64 @@ for line in response.read.blocks[0].lines:
 
 
 
-13.    ### Python Program for Custom Vision -- Image Classification ###
+13.    ### Python Program -- Face Service
+
+
+
+from azure.core.credentials import AzureKeyCredential
+from azure.ai.vision.face import FaceClient
+from azure.ai.vision.face.models import *
+import json
+
+endpoint="https://face4900.cognitiveservices.azure.com/"
+key=""
+
+client=FaceClient(endpoint=endpoint,credential=AzureKeyCredential(key))
+
+features_to_client=[
+    FaceAttributeTypeDetection01.HEAD_POSE,
+    FaceAttributeTypeDetection01.OCCLUSION,
+    FaceAttributeTypeDetection01.ACCESSORIES
+]
+
+with open("img3.jpg", mode="rb") as image_data:
+    response=client.detect(
+        image_content=image_data.read(),
+        detection_model=FaceDetectionModel.DETECTION01,
+        recognition_model=FaceRecognitionModel.RECOGNITION01,
+        return_face_id=False,
+        return_face_attributes=features_to_client
+    )
+
+
+print(json.dumps(response[0].as_dict(),indent=4))
+
+
+
+
+
+14.    ### Python Program for Custom Vision -- Image Classification ###
+
+
+from msrest.authentication import ApiKeyCredentials
+from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient
+
+endpoint="https://ajitcustomvision4000-prediction.cognitiveservices.azure.com/"
+key=""
+
+credentials = ApiKeyCredentials(in_headers={"Prediction-key": key})
+prediction_client = CustomVisionPredictionClient(endpoint=endpoint,
+                                                 credentials=credentials)
+
+image_data=open("img1.png",mode="rb").read()
+projectid="81d75bfd-e6a7-455b-99a6-ce9561df710f"
+model_name="Iteration1"
+
+response=prediction_client.classify_image(projectid,model_name,image_data)
+
+for prediction in response.predictions:
+    print(prediction)
+
 
 
 

@@ -348,3 +348,31 @@ response=client.analyze(
 
 for line in response.read.blocks[0].lines:
     print(f"{line.text}")
+
+
+
+
+12.    ### Python Program for Custom Vision -- Image Classification ###
+
+
+
+from msrest.authentication import ApiKeyCredentials
+from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient
+
+endpoint="https://ajitcustomvision4000.cognitiveservices.azure.com/"
+key=""
+
+credentials = ApiKeyCredentials(in_headers={"Prediction-key": key})
+prediction_client = CustomVisionPredictionClient(endpoint=endpoint,
+                                                 credentials=credentials)
+
+image_data=open("img1.png",mode="rb").read()
+projectid="81d75bfd-e6a7-455b-99a6-ce9561df710f"
+model_name="PetProject"
+
+response=prediction_client.classify_image(projectid,model_name,image_data)
+
+for prediction in response.predictions:
+    print(prediction)
+
+

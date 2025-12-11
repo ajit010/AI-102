@@ -56,3 +56,31 @@ Is there a gym in the hotel?
 Intent: Greet
 Hi
 Hello
+
+
+
+
+
+Lab - Custom Question Answering - Edit the knowledge base
+
+
+The following examples of Q and A’s can be added to the knowledge base :
+
+Q: How do I make a hotel reservation?
+A: You can make a reservation directly on our website by selecting your
+destination, travel dates, and number of guests.
+
+Q: What is your cancellation policy?
+A: Our standard cancellation policy allows free cancellation up to 24 hours before check-in.
+
+Q: Do you offer airport shuttle service?
+A: Yes, we offer complimentary airport shuttle service for all guests.
+
+Q: What amenities are included with my stay?
+A: All guests enjoy free Wi-Fi, complimentary breakfast, access to the fitness
+center, and use of our swimming pool.
+
+Q: How can I modify my existing reservation?
+A: You can modify your reservation by logging into your account on our website
+and selecting ‘Manage Booking.’
+

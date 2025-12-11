@@ -478,3 +478,88 @@ response=client.extract_key_phrases(documents=documents)[0]
 
 for key_phrase in response.key_phrases:
     print(key_phrase)
+
+
+
+
+17.   ### Python Program for Extracted Ket Phrases  ###
+
+
+
+from azure.ai.textanalytics import TextAnalyticsClient
+from azure.core.credentials import AzureKeyCredential
+
+endpoint="https://language4000.cognitiveservices.azure.com/"
+key=""
+
+client=TextAnalyticsClient(endpoint=endpoint,credential=AzureKeyCredential(key))
+
+documents=[
+    "The restaurant had amazing food and the staff were incredibly friendly. I can’t wait to go back!",
+    "The product arrived broken and customer service was unhelpful when I tried to get a replacement.",
+    "The report produced around 1000 data points."
+]
+
+response=client.analyze_sentiment(documents=documents)
+
+for result in response:
+    print(f"Sentiment: {result.sentences[0].sentiment} - Sentence: {result.sentences[0].text}")
+
+
+
+
+18.   ###  Python Program for Extracting Named Entities  ###
+
+
+
+from azure.ai.textanalytics import TextAnalyticsClient
+from azure.core.credentials import AzureKeyCredential
+import json
+
+resource_endpoint="https://language200023.cognitiveservices.azure.com/"
+resource_key=""
+
+resource_credential = AzureKeyCredential(resource_key)
+client = TextAnalyticsClient(
+            endpoint=resource_endpoint, 
+            credential=resource_credential)
+
+documents=["Satya Nadella announced at Microsoft’s headquarters in Redmond that the company’s revenue for the fourth quarter was $46 billion."]
+
+response = client.recognize_entities(documents = documents)[0]
+
+for entity in response.entities:
+    print(f"Entity Text: {entity.text} - Entity Category: {entity.category}")
+
+
+
+
+19.   ### Python Program for Azure AI Text Translation  ###
+
+
+
+from azure.ai.translation.text import TextTranslationClient,TranslatorCredential
+from azure.ai.translation.text.models import InputTextItem
+
+endpoint="https://api.cognitive.microsofttranslator.com/"
+key=""
+region="eastus"
+
+credential=TranslatorCredential(key,region)
+client=TextTranslationClient(endpoint=endpoint,credential=credential)
+
+source_language="en"
+target_language=["it"]
+
+input_txt="I like to learn new languages"
+
+documents=[InputTextItem(text=input_txt)]
+
+response=client.translate(content=documents,to=target_language,from_parameter=source_language)
+
+print(f"Translated Text : {response[0].translations}")
+
+
+
+
+20. 

@@ -1,0 +1,26 @@
+Lab - Conversational Language Understanding - Adding Intents
+
+
+The below can be used as an example on adding intents :
+
+Intent name  --  Description
+
+BookRoom -- User wants to book a room
+CancelBooking -- User wants to cancel an existing booking
+ModifyBooking -- User wants to change an existing booking
+CheckAvailability -- User wants to know if rooms are available
+AskAmenities -- User asks about hotel facilities (e.g., pool, wifi)
+CheckInTime -- User asks about check-in or check-out times
+Greet -- User greets the assistant
+
+
+Lab - Conversational Language Understanding - Adding Entities
+
+The below can be added as entities :
+
+Entity name -- Example values
+
+RoomType -- single, double, suite, deluxe
+CheckInDate -- July 12th, tomorrow, next Monday
+CheckOutDate -- July 15th, Friday, in two days
+GuestCount -- 1 guest, 2 adults, family of 4

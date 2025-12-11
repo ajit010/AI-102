@@ -24,3 +24,35 @@ RoomType -- single, double, suite, deluxe
 CheckInDate -- July 12th, tomorrow, next Monday
 CheckOutDate -- July 15th, Friday, in two days
 GuestCount -- 1 guest, 2 adults, family of 4
+
+
+
+
+Lab - Conversational Language Understanding - Adding Utterances
+
+
+The below can be added as utterances :
+
+Intent: BookRoom
+I want to book a double room from July 12th to July 15th for 2 adults.
+Can you reserve a suite for me tomorrow night?
+
+Intent: CancelBooking
+I need to cancel my reservation with booking number ABC123.
+Can you cancel my room for July 15th?
+
+Intent: ModifyBooking
+I want to change my check-in date to July 13th.
+Can I upgrade my room to a suite?
+
+Intent: CheckAvailability
+Do you have rooms available on July 20th?
+Are there any double rooms open next weekend?
+
+Intent: AskAmenities
+Do you have free wifi?
+Is there a gym in the hotel?
+
+Intent: Greet
+Hi
+Hello

@@ -482,7 +482,7 @@ for key_phrase in response.key_phrases:
 
 
 
-17.   ### Python Program for Extracted Ket Phrases  ###
+17.   ### Python Program for Sentiment Analysis  ###
 
 
 

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hybrid Bot Architecture: CLU + Custom Question Answering</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 40px;
+        color: #222;
+    }
+    h1, h2, h3 {
+        color: #0a4a8a;
+    }
+    pre, code {
+        background: #f3f3f3;
+        padding: 10px;
+        border-radius: 5px;
+        white-space: pre-wrap;
+        font-size: 14px;
+    }
+    .divider {
+        margin: 40px 0;
+        border-bottom: 2px solid #ddd;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Hybrid Bot Architecture: Using CLU + Custom Question Answering</h1>
+<h3>Hotel Booking & FAQ Assistant — Training Guide</h3>
+<p><strong>Version:</strong> 1.0</p>
+
+<div class="divider"></div>
+
+<h2>Table of Contents</h2>
+<ol>
+    <li>Introduction</li>
+    <li>Why CLU and Custom QA Cannot Be Combined in Language Studio</li>
+    <li>How They Work Together in a Bot</li>
+    <li>Architecture Diagram</li>
+    <li>Step-by-Step Hands-On Lab</li>
+    <li>Sample Bot Code (Python)</li>
+    <li>Summary</li>
+</ol>
+
+<div class="divider"></div>
+
+<h2>1. Introduction</h2>
+<p>
+This document guides you in building a hybrid hotel booking assistant that uses:
+</p>
+<ul>
+    <li><strong>Conversational Language Understanding (CLU)</strong> to detect intents and extract entities.</li>
+    <li><strong>Custom Question Answering (CQA)</strong> to provide accurate FAQ responses from documents.</li>
+</ul>
+<p>
+Although CLU and CQA cannot be merged into a single model within Language Studio, a bot can call both services and provide a seamless experience.
+</p>
+
+<div class="divider"></div>
+
+<h2>2. Why CLU + Custom QA Cannot Be Combined in Language Studio</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+<tr>
+<th>Feature</th>
+<th>CLU (Intents + Entities)</th>
+<th>Custom QA (FAQ Answering)</th>
+</tr>
+<tr>
+<td>Purpose</td>
+<td>Understands user intent and extracts structured data</td>
+<td>Searches documents and retrieves answers</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>Intent: BookRoom<br>Entities: Date, RoomType, etc.</td>
+<td>Best-matched answer paragraph</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>Classification + NER ML model</td>
+<td>Semantic search + answer extraction</td>
+</tr>
+</table>
+
+<p>
+Because they use different pipelines, resource types, and API patterns, Microsoft keeps them separate.
+But they <strong>work perfectly together inside a bot</strong>.
+</p>
+
+<div class="divider"></div>
+
+<h2>3. How They Work Together in a Bot</h2>
+
+<p>The bot follows this logic:</p>
+<ol>
+<li>Receive user message</li>
+<li>Send message to <strong>CLU</strong></li>
+<li>If CLU detects intent = <strong>FAQ</strong>, the bot calls <strong>Custom QA</strong></li>
+<li>Otherwise, bot handles the intent normally (ex: BookRoom)</li>
+</ol>
+
+<p>This allows a single bot to support both task automation and FAQ responses.</p>
+
+<div class="divider"></div>
+
+<h2>4. Architecture Diagram</h2>
+
+<pre>
++---------------------------+
+|           User            |
++-----------+---------------+
+            |
+            v
++---------------------------+
+|         Bot Service       |
++---------------------------+
+       |            |
+       |            |
+       v            v
++-------------+   +-------------------------+
+|     CLU     |   |    Custom QA (CQA)      |
+| (Intents)   |   | (Knowledge Base / FAQ)  |
++-------------+   +-------------------------+
+       |                    |
+       +-------- Logic -----+
+                |
+                v
++---------------------------+
+|       Final Bot Reply     |
++---------------------------+
+</pre>
+
+<div class="divider"></div>
+
+<h2>5. Step-by-Step Hands-On Lab</h2>
+
+<h3>Step 1 — Create CLU Project</h3>
+<ul>
+    <li>Create intents:
+        <ul>
+            <li>BookRoom</li>
+            <li>CheckRoomAvailability</li>
+            <li>CancelBooking</li>
+            <li>FAQ</li>
+        </ul>
+    </li>
+    <li>Create entities: Date, RoomType, Location</li>
+    <li>Train and publish the model</li>
+</ul>
+
+<h3>Step 2 — Create Custom QA Project</h3>
+<p>Upload a file with FAQs such as:</p>
+
+<pre>
+What is the cancellation policy?
+You may cancel up to 24 hours before arrival.
+
+Do you offer breakfast?
+Yes, complimentary continental breakfast is included.
+
+Do you provide airport pickup?
+Yes, on request.
+</pre>
+
+<p>Train and publish.</p>
+
+<h3>Step 3 — Build Your Bot (Where Both Are Combined)</h3>
+<p>The bot will:</p>
+<ul>
+<li>Call CLU for every message</li>
+<li>If intent == "FAQ", call Custom QA</li>
+<li>Otherwise handle intent (booking, checking, etc.)</li>
+</ul>
+
+<div class="divider"></div>
+
+<h2>6. Sample Bot Code (Python)</h2>
+
+<pre><code>
+import requests
+
+# -------------------------
+# CLU CONFIGURATION
+# -------------------------
+CLU_ENDPOINT = "&lt;CLU-ENDPOINT&gt;"
+CLU_KEY = "&lt;CLU-KEY&gt;"
+CLU_PROJECT = "&lt;CLU-PROJECT&gt;"
+CLU_DEPLOYMENT = "&lt;CLU-DEPLOYMENT&gt;"
+
+# -------------------------
+# CUSTOM QA CONFIGURATION
+# -------------------------
+CQA_ENDPOINT = "&lt;CQA-ENDPOINT&gt;"
+CQA_KEY = "&lt;CQA-KEY&gt;"
+CQA_PROJECT = "&lt;CQA-PROJECT&gt;"
+CQA_DEPLOYMENT = "&lt;CQA-DEPLOYMENT&gt;"
+
+def call_clu(query):
+    url = f"{CLU_ENDPOINT}/language/:analyze-conversations?api-version=2023-04-01"
+    payload = {
+        "kind": "Conversation",
+        "analysisInput": {
+            "conversationItem": {
+                "id": "1",
+                "participantId": "user",
+                "text": query,
+            }
+        },
+        "parameters": {
+            "projectName": CLU_PROJECT,
+            "deploymentName": CLU_DEPLOYMENT
+        }
+    }
+    headers = {"Ocp-Apim-Subscription-Key": CLU_KEY}
+    response = requests.post(url, json=payload, headers=headers)
+    result = response.json()
+
+    intent = result["result"]["prediction"]["topIntent"]
+    entities = result["result"]["prediction"].get("entities", [])
+
+    return intent, entities
+
+def call_custom_qa(query):
+    url = f"{CQA_ENDPOINT}/language/:query-knowledgebases?api-version=2021-10-01"
+    payload = {
+        "question": query,
+        "top": 1,
+        "projectName": CQA_PROJECT,
+        "deploymentName": CQA_DEPLOYMENT
+    }
+    headers = {"Ocp-Apim-Subscription-Key": CQA_KEY}
+    response = requests.post(url, json=payload, headers=headers)
+    return response.json()["answers"][0]["answer"]
+
+def handle_message(text):
+    intent, entities = call_clu(text)
+
+    if intent == "FAQ":
+        return call_custom_qa(text)
+
+    elif intent == "BookRoom":
+        return "Sure! I can help you book a room. What date would you like?"
+
+    elif intent == "CheckRoomAvailability":
+        return "Checking room availability for you..."
+
+    else:
+        return "I can help with booking or answering hotel questions."
+
+# Example
+print(handle_message("What is your cancellation policy?"))
+</code></pre>
+
+<div class="divider"></div>
+
+<h2>7. Summary</h2>
+<p>
+CLU and Custom QA cannot be merged into one model inside Language Studio.<br>
+But you <strong>can fully combine them in a bot</strong> to create powerful assistants capable of:
+</p>
+<ul>
+    <li>Understanding intents</li>
+    <li>Extracting entities</li>
+    <li>Answering FAQs</li>
+    <li>Handling booking tasks</li>
+</ul>
+
+<p>This architecture is ideal for modern customer service scenarios such as hotel booking, travel support, banking, insurance, and more.</p>
+
+</body>
+</html>
